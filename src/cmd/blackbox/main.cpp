@@ -5,7 +5,7 @@
 #include "blackbox/blackbox.hpp"
 
 static void usage(const char *program) {
-    std::cerr << "Usage: " << program << " <positive integer>" << std::endl;
+    std::cerr << "Usage: " << program << " <semiprime>" << std::endl;
 }
 
 int main(int argc, char **argv) {
