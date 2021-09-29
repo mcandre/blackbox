@@ -11,8 +11,6 @@
 std::ostream &operator<<(std::ostream &o, const std::tuple<uint64_t, uint64_t> &n);
 
 namespace blackbox {
-constexpr auto NULL_FACTOR = std::make_tuple(0UL, 0UL);
-
 std::tuple<uint64_t, uint64_t> factor_bruteforce(uint64_t n);
 
 std::tuple<uint64_t, uint64_t> factor_odd_linear(uint64_t n);

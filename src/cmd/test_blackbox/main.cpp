@@ -17,7 +17,7 @@ static void panic(const std::string &label, const std::string &message) {
 
 static void test_algorithm_shallow(const std::string &label, const std::function<std::tuple<uint64_t, uint64_t>(uint64_t)> &a) {
 
-    if (a(0UL) != blackbox::NULL_FACTOR) {
+    if (a(0UL) != std::make_tuple(0UL, 0UL)) {
         panic(label, "expected null factoring");
     }
 

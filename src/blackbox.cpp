@@ -19,7 +19,7 @@ std::ostream &operator<<(std::ostream &o, const std::tuple<uint64_t, uint64_t> &
 namespace blackbox {
 std::tuple<uint64_t, uint64_t> factor_bruteforce(uint64_t n) {
     if (n == 0UL) {
-        return NULL_FACTOR;
+        return std::make_tuple(0UL, 0UL);
     }
 
     if (n < 4UL) {
@@ -37,7 +37,7 @@ std::tuple<uint64_t, uint64_t> factor_bruteforce(uint64_t n) {
 
 std::tuple<uint64_t, uint64_t> factor_odd_linear(uint64_t n) {
     if (n == 0UL) {
-        return NULL_FACTOR;
+        return std::make_tuple(0UL, 0UL);
     }
 
     if (n < 4UL) {
@@ -84,7 +84,7 @@ void sieve::grow() {
 
 std::tuple<uint64_t, uint64_t> sieve::factor(uint64_t n) {
     if (n == 0UL) {
-        return NULL_FACTOR;
+        return std::make_tuple(0UL, 0UL);
     }
 
     if (n < 4UL) {
