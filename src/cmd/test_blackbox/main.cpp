@@ -17,7 +17,7 @@ static void test_algorithm(
     const std::function<std::optional<std::tuple<uint64_t, uint64_t>>(uint64_t)> &a
 ) {
     for (auto n = 0UL; n < 4; n++) {
-        if (a(n) != std::nullopt) { panic(label, "expected base case nullopt"); }
+        if (a(n) != std::nullopt) { panic(label, "expected base case -> nullopt"); }
     }
 
     for (auto n = 4UL; n < 100; n += 2) {
@@ -28,6 +28,10 @@ static void test_algorithm(
 
     for (auto i = 0; i < 100; i++) {
         s.grow();
+    }
+
+    for (const auto p : s.primes) {
+        if (a(p) != std::nullopt) { panic(label, "expected prime -> nullopt"); }
     }
 
     for (const auto p : s.primes) {
