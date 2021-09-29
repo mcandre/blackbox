@@ -20,9 +20,11 @@ static void test_algorithm(
         if (a(n) != std::nullopt) { panic(label, "expected base case nullopt"); }
     }
 
-    if (a(4UL) != std::make_tuple(2UL, 2UL)) { panic(label, "expected (2, 2)"); }
-    if (a(5UL) != std::nullopt) { panic(label, "expected trivial nullopt"); }
-    if (a(6UL) != std::make_tuple(2UL, 3UL)) { panic(label, "expected (2, 3)"); }
+    if (a(4UL) != std::make_tuple(2UL, 2UL)) { panic(label, "expected 4 -> (2, 2)"); }
+    if (a(5UL) != std::nullopt) { panic(label, "expected 5 -> nullopt"); }
+    if (a(6UL) != std::make_tuple(2UL, 3UL)) { panic(label, "expected 6 -> (2, 3)"); }
+    if (a(7UL) != std::nullopt) { panic(label, "expected 7 -> nullopt"); }
+    if (a(8UL) != std::make_tuple(2UL, 4UL)) { panic(label, "expected 8 -> (2, 4)"); }
 }
 
 int main() {
