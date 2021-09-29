@@ -1,36 +1,23 @@
 #include <cassert>
 #include <cstdint>
+#include <functional>
 #include <optional>
 
 #include "blackbox/blackbox.hpp"
 
-void test_bruteforce() {
+static void test_algorithm(const std::function<std::optional<std::tuple<uint64_t, uint64_t>>(uint64_t)> &a) {
     for (auto n = 0UL; n < 4; n++) {
-        assert(blackbox::factor_bruteforce(n) == std::nullopt);
+        assert(a(n) == std::nullopt);
     }
 
-    assert(blackbox::factor_bruteforce(6UL) == std::make_tuple(2UL, 3UL));
-}
-
-void test_sieve() {
-    for (auto n = 0UL; n < 4; n++) {
-        assert(blackbox::factor_sieve(n) == std::nullopt);
-    }
-
-    assert(blackbox::factor_sieve(6UL) == std::make_tuple(2UL, 3UL));
-}
-
-void test_default() {
-    for (auto n = 0UL; n < 4; n++) {
-        assert(blackbox::factor(n) == std::nullopt);
-    }
-
-    assert(blackbox::factor(6UL) == std::make_tuple(2UL, 3UL));
+    assert(a(4UL) == std::make_tuple(2UL, 2UL));
+    assert(a(6UL) == std::make_tuple(2UL, 3UL));
 }
 
 int main() {
-    test_bruteforce();
-    test_sieve();
-    test_default();
+    for (const auto a : std::vector{blackbox::factor_bruteforce, blackbox::factor_sieve, blackbox::factor}) {
+        test_algorithm(a);
+    }
+
     return EXIT_SUCCESS;
 }
