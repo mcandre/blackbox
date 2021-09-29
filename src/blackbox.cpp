@@ -53,12 +53,16 @@ std::optional<std::tuple<uint64_t, uint64_t>> factor_odd_linear(uint64_t n) {
 void sieve::grow() {
     index += 2;
 
+    if (index % 2 == 0UL) {
+        return;
+    }
+
     bool prime = true;
 
     const auto root = uint64_t(index);
 
-    for (auto i = size_t(0); i < primes.size(); i++) {
-        const auto p = primes[i];
+    for (auto i = size_t(0); i < odd_primes.size(); i++) {
+        const auto p = odd_primes[i];
 
         if (index % p == 0UL) {
             prime = false;
@@ -71,7 +75,7 @@ void sieve::grow() {
     }
 
     if (prime) {
-        primes.push_back(index);
+        odd_primes.push_back(index);
     }
 }
 
@@ -91,7 +95,7 @@ std::optional<std::tuple<uint64_t, uint64_t>> factor_sieve(uint64_t n) {
     auto p = 2UL;
 
     do {
-        p = s.primes.back();
+        p = s.odd_primes.back();
 
         if (n % p == 0UL) {
             const auto q = n / p;

@@ -38,24 +38,24 @@ static void test_algorithm(
         }
     }
 
-    for (const auto p : sv.primes) {
+    for (const auto p : sv.odd_primes) {
         if (a(p) != std::nullopt) {
             panic(label, "expected prime -> nullopt");
         }
     }
 
-    for (const auto p : sv.primes) {
+    for (const auto p : sv.odd_primes) {
         const auto n = p * p;
         if (a(n) != std::make_tuple(p, p)) {
             panic(label, "expected p^2 -> (p, p)");
         }
     }
 
-    for (auto i = size_t(0); i < sv.primes.size() - 1; i++) {
-        const auto p = sv.primes[i];
+    for (auto i = size_t(0); i < sv.odd_primes.size() - 1; i++) {
+        const auto p = sv.odd_primes[i];
 
-        for (auto j = size_t(i + 1); j < sv.primes.size(); j++) {
-            const auto q = sv.primes[j];
+        for (auto j = size_t(i + 1); j < sv.odd_primes.size(); j++) {
+            const auto q = sv.odd_primes[j];
             if (a(p * q) != std::make_tuple(p, q)) {
                 panic(label, "expected pq -> (p, q)");
             }
@@ -81,9 +81,9 @@ int main() {
         sv.grow();
     }
 
-    const auto leading_primes = std::vector<uint64_t>(sv.primes.begin(), sv.primes.begin() + 4);
-    if (leading_primes != std::vector<uint64_t>{ 2UL, 3UL, 5UL, 7UL }) {
-        panic("sieve", "expected leading primes {2, 3, 5, 7}");
+    const auto leading_odd_primes = std::vector<uint64_t>(sv.odd_primes.begin(), sv.odd_primes.begin() + 4);
+    if (leading_odd_primes != std::vector<uint64_t>{ 3UL, 5UL, 7UL, 11UL }) {
+        panic("sieve", "expected leading odd primes {3, 5, 7, 11}");
     }
 
     test_algorithm(sv, "bruteforce", blackbox::factor_bruteforce);
