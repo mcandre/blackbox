@@ -1,3 +1,7 @@
+/**
+ * @copyright 2021 YelloSoft
+ */
+
 #include <cstdint>
 #include <cstdlib>
 #include <iostream>

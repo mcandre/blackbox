@@ -1,3 +1,7 @@
+/**
+ * @copyright 2021 YelloSoft
+ */
+
 #include <cassert>
 #include <cstdint>
 #include <functional>
@@ -66,11 +70,6 @@ static void test_algorithm_deep(
 
     for (const auto p : sv.odd_primes) {
         if (a(p) != std::nullopt) {
-
-
-            std::cerr << "P: " << p << std::endl;
-
-
             panic(label, "expected prime -> nullopt");
         }
     }

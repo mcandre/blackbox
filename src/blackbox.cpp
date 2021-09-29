@@ -1,3 +1,7 @@
+/**
+ * @copyright 2021 YelloSoft
+ */
+
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
