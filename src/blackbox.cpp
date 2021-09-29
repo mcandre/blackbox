@@ -19,7 +19,7 @@ std::optional<std::tuple<uint64_t, uint64_t>> factor_bruteforce(uint64_t n) {
         return std::nullopt;
     }
 
-    const auto root = sqrt(n);
+    const auto root = uint64_t(sqrt(n));
 
     for (auto p = 2UL; p <= root; p++) {
         if (n % p == 0UL) {
@@ -44,7 +44,7 @@ std::optional<std::tuple<uint64_t, uint64_t>> factor_sieve(uint64_t n) {
         return std::nullopt;
     }
 
-    const auto root = sqrt(n);
+    const auto root = uint64_t(sqrt(n));
 
     sieve s{};
 
