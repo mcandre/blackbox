@@ -42,7 +42,7 @@ static void test_algorithm(
 int main() {
     blackbox::sieve sv{};
 
-    for (auto i = 0; i < 10000; i++) {
+    for (auto i = 0; i < 1000; i++) {
         sv.grow();
     }
 
