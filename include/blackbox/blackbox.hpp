@@ -5,16 +5,17 @@
 
 #include <cstdint>
 #include <iostream>
-#include <optional>
 #include <tuple>
 #include <vector>
 
 std::ostream &operator<<(std::ostream &o, const std::tuple<uint64_t, uint64_t> &n);
 
 namespace blackbox {
-std::optional<std::tuple<uint64_t, uint64_t>> factor_bruteforce(uint64_t n);
+constexpr auto NULL_FACTOR = std::make_tuple(0UL, 0UL);
 
-std::optional<std::tuple<uint64_t, uint64_t>> factor_odd_linear(uint64_t n);
+std::tuple<uint64_t, uint64_t> factor_bruteforce(uint64_t n);
+
+std::tuple<uint64_t, uint64_t> factor_odd_linear(uint64_t n);
 
 struct sieve {
     std::vector<uint64_t> odd_primes{
@@ -143,12 +144,12 @@ struct sieve {
         9907, 9923, 9929, 9931, 9941, 9949, 9967, 9973
     };
 
-    uint64_t index = 10000UL;
+    uint64_t index = 10005UL;
 
     void grow();
 
-    std::optional<std::tuple<uint64_t, uint64_t>> factor(uint64_t n);
+    std::tuple<uint64_t, uint64_t> factor(uint64_t n);
 };
 
-std::optional<std::tuple<uint64_t, uint64_t>> factor(uint64_t n);
+std::tuple<uint64_t, uint64_t> factor(uint64_t n);
 }

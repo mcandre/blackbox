@@ -6,7 +6,6 @@
 #include <cstdint>
 #include <functional>
 #include <iostream>
-#include <optional>
 #include <string>
 
 #include "blackbox/blackbox.hpp"
@@ -16,61 +15,40 @@ static void panic(const std::string &label, const std::string &message) {
     exit(EXIT_FAILURE);
 }
 
-static void test_algorithm_shallow(
-    const std::string &label,
-    const std::function<std::optional<std::tuple<uint64_t, uint64_t>>(uint64_t)> &a) {
-    for (auto n = 0UL; n < 4; n++) {
-        if (a(n) != std::nullopt) {
-            panic(label, "expected base case -> nullopt");
+static void test_algorithm_shallow(const std::string &label, const std::function<std::tuple<uint64_t, uint64_t>(uint64_t)> &a) {
+
+    if (a(0UL) != blackbox::NULL_FACTOR) {
+        panic(label, "expected null factoring");
+    }
+
+    for (auto n = 1UL; n < 4UL; n++) {
+        if (a(n) != std::make_tuple(n, 1UL)) {
+            panic(label, "expected base case -> (n, 1)");
         }
     }
 
-    if (a(5UL) != std::nullopt) {
-        panic(label, "expected 5 -> nullopt");
+    if (a(4UL) != std::make_tuple(2UL, 2UL)) {
+        panic(label, "expected 4 -> (2, 2)");
+    }
+    if (a(5UL) != std::make_tuple(5UL, 1UL)) {
+        panic(label, "expected 5 -> (5, 1)");
     }
     if (a(6UL) != std::make_tuple(2UL, 3UL)) {
         panic(label, "expected 6 -> (2, 3)");
     }
-    if (a(7UL) != std::nullopt) {
-        panic(label, "expected 7 -> nullopt");
-    }
 
-    for (auto n = 4UL; n < 100; n += 2) {
+    for (auto n = 4UL; n < 1000; n += 2) {
         if (a(n) != std::make_tuple(2, n / 2)) {
             panic(label, "expected 2q -> (2, q)");
         }
     }
 }
 
-static void test_algorithm_deep(
-    const blackbox::sieve &sv,
-    const std::string &label,
-    const std::function<std::optional<std::tuple<uint64_t, uint64_t>>(uint64_t)> &a) {
-    for (auto n = 0UL; n < 4; n++) {
-        if (a(n) != std::nullopt) {
-            panic(label, "expected base case -> nullopt");
-        }
-    }
-
-    if (a(5UL) != std::nullopt) {
-        panic(label, "expected 5 -> nullopt");
-    }
-    if (a(6UL) != std::make_tuple(2UL, 3UL)) {
-        panic(label, "expected 6 -> (2, 3)");
-    }
-    if (a(7UL) != std::nullopt) {
-        panic(label, "expected 7 -> nullopt");
-    }
-
-    for (auto n = 4UL; n < 100; n += 2) {
-        if (a(n) != std::make_tuple(2, n / 2)) {
-            panic(label, "expected 2q -> (2, q)");
-        }
-    }
+static void test_algorithm_deep(const std::string &label, const std::function<std::tuple<uint64_t, uint64_t>(uint64_t)> &a, const blackbox::sieve &sv) {
 
     for (const auto p : sv.odd_primes) {
-        if (a(p) != std::nullopt) {
-            panic(label, "expected prime -> nullopt");
+        if (a(p) != std::make_tuple(p, 1UL)) {
+            panic(label, "expected p -> (p, 1)");
         }
     }
 
@@ -92,14 +70,11 @@ static void test_algorithm_deep(
         }
     }
 
-    for (auto n = 0UL; n <= sv.index; n++) {
-        const auto result = a(n);
+    for (auto n = 1UL; n <= sv.index; n++) {
+        const auto [p, q] = a(n);
 
-        if (result.has_value()) {
-            const auto [p, q] = *result;
-            if (p * q != n) {
-                panic(label, "invalid factoring");
-            }
+        if (p * q != n) {
+            panic(label, "invalid factoring");
         }
     }
 }
@@ -107,18 +82,9 @@ static void test_algorithm_deep(
 int main() {
     test_algorithm_shallow("bruteforce", blackbox::factor_bruteforce);
     test_algorithm_shallow("odd_linear", blackbox::factor_odd_linear);
+    test_algorithm_shallow("default", blackbox::factor);
 
     blackbox::sieve sv{};
-
-    for (auto i = 0; i < 10000; i++) {
-        sv.grow();
-    }
-
-    const auto leading_odd_primes = std::vector<uint64_t>(sv.odd_primes.begin(), sv.odd_primes.begin() + 4);
-    if (leading_odd_primes != std::vector<uint64_t>{ 3UL, 5UL, 7UL, 11UL }) {
-        panic("sieve", "expected leading odd primes {3, 5, 7, 11}");
-    }
-
-    test_algorithm_deep(sv, "default", blackbox::factor);
+    test_algorithm_deep("default", blackbox::factor, sv);
     return EXIT_SUCCESS;
 }
