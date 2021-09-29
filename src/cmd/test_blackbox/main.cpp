@@ -46,6 +46,15 @@ static void test_algorithm(
             if (a(p * q) != std::make_tuple(p, q)) { panic(label, "expected pq -> (p, q)"); }
         }
     }
+
+    for (auto n = 0UL; n <= sv.index; n++) {
+        const auto result = a(n);
+
+        if (result.has_value()) {
+            const auto [p, q] = *result;
+            if (p * q != n) { panic(label, "invalid factoring"); }
+        }
+    }
 }
 
 int main() {
