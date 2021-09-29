@@ -4,5 +4,5 @@
 
 ```console
 $ blackbox 6
-2, 3
+(2, 3)
 ```
