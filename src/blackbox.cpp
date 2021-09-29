@@ -60,8 +60,9 @@ void sieve::grow() {
     bool prime = true;
 
     const auto root = uint64_t(index);
+    const auto sz = odd_primes.size();
 
-    for (auto i = size_t(0); i < odd_primes.size(); i++) {
+    for (auto i = size_t(0); i < sz; i++) {
         const auto p = odd_primes[i];
 
         if (index % p == 0UL) {
