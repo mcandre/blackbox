@@ -85,6 +85,11 @@ int main() {
     test_algorithm_shallow("default", blackbox::factor);
 
     blackbox::sieve sv{};
+
+    for (auto i = 0; i < 100; i++) {
+        sv.grow();
+    }
+
     test_algorithm_deep("default", blackbox::factor, sv);
     return EXIT_SUCCESS;
 }
