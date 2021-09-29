@@ -16,7 +16,6 @@ static void panic(const std::string &label, const std::string &message) {
 }
 
 static void test_algorithm_shallow(const std::string &label, const std::function<std::tuple<uint64_t, uint64_t>(uint64_t)> &a) {
-
     if (a(0UL) != std::make_tuple(0UL, 0UL)) {
         panic(label, "expected null factoring");
     }
@@ -45,7 +44,6 @@ static void test_algorithm_shallow(const std::string &label, const std::function
 }
 
 static void test_algorithm_deep(const std::string &label, const std::function<std::tuple<uint64_t, uint64_t>(uint64_t)> &a, const blackbox::sieve &sv) {
-
     for (const auto p : sv.odd_primes) {
         if (a(p) != std::make_tuple(p, 1UL)) {
             panic(label, "expected p -> (p, 1)");
@@ -59,18 +57,7 @@ static void test_algorithm_deep(const std::string &label, const std::function<st
         }
     }
 
-    for (auto i = size_t(0); i < sv.odd_primes.size() - 1; i++) {
-        const auto p = sv.odd_primes[i];
-
-        for (auto j = size_t(i + 1); j < sv.odd_primes.size(); j++) {
-            const auto q = sv.odd_primes[j];
-            if (a(p * q) != std::make_tuple(p, q)) {
-                panic(label, "expected pq -> (p, q)");
-            }
-        }
-    }
-
-    for (auto n = 1UL; n <= sv.index; n++) {
+    for (auto n = 1UL; n < sv.index; n++) {
         const auto [p, q] = a(n);
 
         if (p * q != n) {
