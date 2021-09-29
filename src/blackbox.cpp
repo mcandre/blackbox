@@ -50,7 +50,7 @@ std::tuple<uint64_t, uint64_t> factor_odd_linear(uint64_t n) {
 
     const auto root = sqrt(n);
 
-    for (auto p = 3UL; p <= root; p += 2) {
+    for (auto p = 3UL; p < root; p += 2) {
         if (n % p == 0UL) {
             return std::make_tuple(p, n / p);
         }
@@ -62,18 +62,11 @@ std::tuple<uint64_t, uint64_t> factor_odd_linear(uint64_t n) {
 void sieve::grow() {
     index += 2;
 
-    if (index % 2 == 0UL) {
-        return;
-    }
-
     bool prime = true;
 
-    const auto root = uint64_t(index);
-    const auto sz = odd_primes.size();
+    const auto root = sqrt(index);
 
-    for (auto i = size_t(0); i < sz; i++) {
-        const auto p = odd_primes[i];
-
+    for (const auto p : odd_primes) {
         if (index % p == 0UL) {
             prime = false;
             break;
@@ -103,17 +96,18 @@ std::tuple<uint64_t, uint64_t> sieve::factor(uint64_t n) {
     }
 
     const auto root = sqrt(n);
-    const auto sz = odd_primes.size();
 
-    for (auto i = size_t(0); i <= root && i < sz; i++) {
-        const auto p = odd_primes[i];
-
+    for (const auto p : odd_primes) {
         if (n % p == 0UL) {
             return std::make_tuple(p, n / p);
         }
+
+        if (p > root) {
+            break;
+        }
     }
 
-    auto p = odd_primes.back();
+    auto p = 0UL;
 
     do {
         grow();
@@ -127,7 +121,7 @@ std::tuple<uint64_t, uint64_t> sieve::factor(uint64_t n) {
         if (n % p == 0UL) {
             return std::make_tuple(p, n / p);
         }
-    } while (index <= root);
+    } while (index < root);
 
     return std::make_tuple(n, 1UL);
 }
