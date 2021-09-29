@@ -87,6 +87,7 @@ int main() {
     }
 
     test_algorithm(sv, "bruteforce", blackbox::factor_bruteforce);
+    test_algorithm(sv, "odd_linear", blackbox::factor_odd_linear);
     test_algorithm(sv, "sieve", blackbox::factor_sieve);
     test_algorithm(sv, "default", blackbox::factor);
     return EXIT_SUCCESS;

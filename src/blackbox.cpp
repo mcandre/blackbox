@@ -19,6 +19,21 @@ std::optional<std::tuple<uint64_t, uint64_t>> factor_bruteforce(uint64_t n) {
         return std::nullopt;
     }
 
+    for (auto p = 2UL; p < n; p++) {
+        if (n % p == 0UL) {
+            const auto q = n / p;
+            return std::optional(std::make_tuple(p, q));
+        }
+    }
+
+    return std::nullopt;
+}
+
+std::optional<std::tuple<uint64_t, uint64_t>> factor_odd_linear(uint64_t n) {
+    if (n < 4UL) {
+        return std::nullopt;
+    }
+
     if (n % 2UL == 0) {
         return std::make_tuple(2UL, n / 2UL);
     }
