@@ -79,36 +79,45 @@ void sieve::grow() {
     }
 }
 
-std::optional<std::tuple<uint64_t, uint64_t>> factor_sieve(uint64_t n) {
-    if (n < 4UL) {
-        return std::nullopt;
-    }
-
+std::optional<std::tuple<uint64_t, uint64_t>> sieve::factor(uint64_t n) {
     if (n % 2 == 0UL) {
         return std::optional(std::make_tuple(2UL, n / 2UL));
     }
 
     const auto root = uint64_t(sqrt(n));
+    const auto sz = odd_primes.size();
 
-    sieve s{};
+    for (auto i = size_t(0); i <= root && i < sz; i++) {
+        const auto p = odd_primes[i];
 
-    auto p = 2UL;
-
-    do {
-        p = s.odd_primes.back();
-
-        if (n % p == 0UL) {
-            const auto q = n / p;
-            return std::optional(std::make_tuple(p, q));
+        if (n == p) {
+            return std::nullopt;
         }
 
-        s.grow();
-    } while (p <= root);
+        if (n % p == 0UL) {
+            return std::make_tuple(p, n / p);
+        }
+    }
+
+    while (index <= root) {
+        grow();
+
+        const auto last_known_prime = odd_primes.back();
+
+        if (n % last_known_prime == 0UL) {
+            return std::make_tuple(last_known_prime, n / last_known_prime);
+        }
+    }
 
     return std::nullopt;
 }
 
 std::optional<std::tuple<uint64_t, uint64_t>> factor(uint64_t n) {
-    return factor_sieve(n);
+    if (n < 4UL) {
+        return std::nullopt;
+    }
+
+    sieve sv{};
+    return sv.factor(n);
 }
 }
