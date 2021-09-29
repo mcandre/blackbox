@@ -1,3 +1,4 @@
+#include <cmath>
 #include <cstdint>
 #include <iostream>
 #include <optional>
@@ -16,7 +17,12 @@ std::optional<std::tuple<uint64_t, uint64_t>> factor_bruteforce(uint64_t n) {
         return std::nullopt;
     }
 
-    // ...
+    for (uint64_t p = 2; p <= sqrt(n); p++) {
+        if (n % p == 0) {
+            const auto q = n / p;
+            return std::optional(std::make_tuple(p, q));
+        }
+    }
 
     return std::optional(std::make_tuple(1UL, n));
 }

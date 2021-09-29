@@ -16,10 +16,15 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
-    auto n = 0UL;
+    auto n = 0L;
 
     try {
-        n = std::stoul(argv[1]);
+        n = std::stol(argv[1]);
+
+        if (n < 0) {
+            usage(program);
+            return EXIT_FAILURE;
+        }
     } catch (std::invalid_argument &e) {
         usage(program);
         return EXIT_FAILURE;
