@@ -5,8 +5,7 @@
 ```console
 $ time blackbox 11111111111111111
 (2071723, 5363222357)
-
-34.73s user 0.02s system 99% cpu 34.824 total
+blackbox 11111111111111111  33.07s user 0.02s system 99% cpu 33.308 total
 ```
 
 # REQUIREMENTS
