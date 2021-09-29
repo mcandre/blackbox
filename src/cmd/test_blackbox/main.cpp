@@ -37,6 +37,15 @@ static void test_algorithm(
         const auto n = p * p;
         if (a(n) != std::make_tuple(p, p)) { panic(label, "expected p^2 -> (p, p)"); }
     }
+
+    for (auto i = size_t(0); i < sv.primes.size() - 1; i++) {
+        const auto p = sv.primes[i];
+
+        for (auto j = size_t(i + 1); j < sv.primes.size(); j++) {
+            const auto q = sv.primes[j];
+            if (a(p * q) != std::make_tuple(p, q)) { panic(label, "expected pq -> (p, q)"); }
+        }
+    }
 }
 
 int main() {
