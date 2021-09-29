@@ -1,23 +1,33 @@
 #include <cassert>
 #include <cstdint>
 #include <functional>
+#include <iostream>
 #include <optional>
+#include <string>
 
 #include "blackbox/blackbox.hpp"
 
-static void test_algorithm(const std::function<std::optional<std::tuple<uint64_t, uint64_t>>(uint64_t)> &a) {
+static void panic(const std::string &label, const std::string &message) {
+    std::cerr << label << ": " << message << std::endl;
+    exit(EXIT_FAILURE);
+}
+
+static void test_algorithm(
+    const std::string &label,
+    const std::function<std::optional<std::tuple<uint64_t, uint64_t>>(uint64_t)> &a
+) {
     for (auto n = 0UL; n < 4; n++) {
-        assert(a(n) == std::nullopt);
+        if (a(n) != std::nullopt) { panic(label, "expected base case nullopt"); }
     }
 
-    assert(a(4UL) == std::make_tuple(2UL, 2UL));
-    assert(a(6UL) == std::make_tuple(2UL, 3UL));
+    if (a(4UL) != std::make_tuple(2UL, 2UL)) { panic(label, "expected (2, 2)"); }
+    if (a(5UL) != std::nullopt) { panic(label, "expected trivial nullopt"); }
+    if (a(6UL) != std::make_tuple(2UL, 3UL)) { panic(label, "expected (2, 3)"); }
 }
 
 int main() {
-    for (const auto a : std::vector{blackbox::factor_bruteforce, blackbox::factor_sieve, blackbox::factor}) {
-        test_algorithm(a);
-    }
-
+    test_algorithm("bruteforce", blackbox::factor_bruteforce);
+    test_algorithm("sieve", blackbox::factor_sieve);
+    test_algorithm("default", blackbox::factor);
     return EXIT_SUCCESS;
 }
