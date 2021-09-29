@@ -52,6 +52,12 @@ set_target_properties(
     OUTPUT_NAME "blackbox${ARTIFACT_EXT}"
 )
 
+add_executable(test_blackbox src/cmd/test_blackbox/main.cpp src/blackbox.cpp)
+set_target_properties(
+    test_blackbox PROPERTIES
+    OUTPUT_NAME "test_blackbox${ARTIFACT_EXT}"
+)
+
 if(MSVC)
     set(HOME "$ENV{HOMEDRIVE}$ENV{HOMEPATH}")
     set(ARTIFACT blackbox.exe)
@@ -70,6 +76,9 @@ if(MSVC)
 else()
     add_custom_target(uninstall COMMAND rm -f "${INSTALL_FILE}")
 endif()
+
+enable_testing()
+add_test(NAME blackbox_unit_test COMMAND bin/test_blackbox)
 
 add_custom_target(cppcheck COMMAND cppcheck -q --force --enable=all --inline-suppr --suppressions-list=suppressions.cfg --error-exitcode=1 -U__SANITIZE_ADDRESS__ -I include src)
 add_custom_target(cpplint COMMAND sail include src | xargs -n 1 cpplint)

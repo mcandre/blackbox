@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <iostream>
@@ -33,16 +34,7 @@ std::optional<std::tuple<uint64_t, uint64_t>> factor_bruteforce(uint64_t n) {
 void sieve::grow() {
     index++;
 
-    bool prime = true;
-
-    for (const auto p : primes) {
-        if (index % p == 0UL) {
-            prime = false;
-            break;
-        }
-    }
-
-    if (prime) {
+    if (!std::any_of(primes.begin(), primes.end(), [=](uint64_t p) { return index % p == 0UL; })) {
         primes.push_back(index);
     }
 }
