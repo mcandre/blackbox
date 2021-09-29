@@ -81,9 +81,9 @@ int main() {
         sv.grow();
     }
 
-    const auto leading_primes = std::vector<uint64_t>(sv.primes.begin(), sv.primes.begin() + 3);
-    if (leading_primes != std::vector<uint64_t>{ 2UL, 3UL, 5UL }) {
-        panic("sieve", "expected leading primes {2, 3, 5}");
+    const auto leading_primes = std::vector<uint64_t>(sv.primes.begin(), sv.primes.begin() + 4);
+    if (leading_primes != std::vector<uint64_t>{ 2UL, 3UL, 5UL, 7UL }) {
+        panic("sieve", "expected leading primes {2, 3, 5, 7}");
     }
 
     test_algorithm(sv, "bruteforce", blackbox::factor_bruteforce);

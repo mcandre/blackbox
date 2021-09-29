@@ -51,7 +51,7 @@ std::optional<std::tuple<uint64_t, uint64_t>> factor_odd_linear(uint64_t n) {
 }
 
 void sieve::grow() {
-    index++;
+    index += 2;
 
     if (!std::any_of(primes.begin(), primes.end(), [=](uint64_t p) { return index % p == 0UL; })) {
         primes.push_back(index);
@@ -61,6 +61,10 @@ void sieve::grow() {
 std::optional<std::tuple<uint64_t, uint64_t>> factor_sieve(uint64_t n) {
     if (n < 4UL) {
         return std::nullopt;
+    }
+
+    if (n % 2 == 0UL) {
+        return std::optional(std::make_tuple(2UL, n / 2UL));
     }
 
     const auto root = uint64_t(sqrt(n));
