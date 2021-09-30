@@ -3,9 +3,9 @@
 # EXAMPLE
 
 ```console
-$ time blackbox 46116860399022263
-{ 110097353, 418873471 }
-blackbox 46116860399022263  19.68s user 0.02s system 99% cpu 19.712 total
+$ time blackbox 18446744073709551577
+{ 139646831, 132095686967 }
+blackbox 18446744073709551577  27.69s user 0.03s system 99% cpu 27.727 total
 ```
 
 # REQUIREMENTS
