@@ -5,15 +5,15 @@
 
 #include <cstdint>
 #include <iostream>
-#include <tuple>
+#include <set>
 #include <vector>
 
-std::ostream &operator<<(std::ostream &o, const std::tuple<uint64_t, uint64_t> &n);
+std::ostream &operator<<(std::ostream &o, const std::set<uint64_t> &n);
 
 namespace blackbox {
-std::tuple<uint64_t, uint64_t> factor_bruteforce(uint64_t n);
+std::set<uint64_t> factor_bruteforce(uint64_t n);
 
-std::tuple<uint64_t, uint64_t> factor_odd_linear(uint64_t n);
+std::set<uint64_t> factor_odd_linear(uint64_t n);
 
 struct sieve {
     std::vector<uint64_t> odd_primes{
@@ -1089,8 +1089,8 @@ struct sieve {
 
     void grow();
 
-    std::tuple<uint64_t, uint64_t> factor(uint64_t n);
+    std::set<uint64_t> factor(uint64_t n);
 };
 
-std::tuple<uint64_t, uint64_t> factor(uint64_t n);
+std::set<uint_least64_t> factor(uint64_t n);
 }
