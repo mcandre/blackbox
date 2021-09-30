@@ -15,12 +15,13 @@ std::ostream &operator<<(std::ostream &o, const std::set<uint64_t> &n) {
     o << "{ ";
 
     const auto sz = n.size();
+    const auto sz_1 = sz - 1;
     auto it = n.begin();
 
     for (auto i = size_t(0); i < sz; i++) {
         o << *it;
 
-        if (sz > 1 && i < sz - 1) {
+        if (sz > 1 && i < sz_1) {
             o << ", ";
         }
 
