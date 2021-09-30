@@ -11,10 +11,6 @@
 std::ostream &operator<<(std::ostream &o, const std::set<uint64_t> &n);
 
 namespace blackbox {
-std::set<uint64_t> factor_bruteforce(uint64_t n);
-
-std::set<uint64_t> factor_odd_linear(uint64_t n);
-
 struct sieve {
     std::vector<uint64_t> odd_primes{
         3, 5, 7, 11, 13, 17, 19, 23,

@@ -17,10 +17,12 @@ static void panic(const std::string &label, const std::string &message) {
 }
 
 static void test_algorithm_shallow(const std::string &label, const std::function<std::set<uint64_t>(uint64_t)> &a) {
-    for (auto n = 0UL; n < 2UL; n++) {
-        if (a(n) != std::set<uint64_t>{ n }) {
-            panic(label, "expected identical factoring");
-        }
+    if (!a(0UL).empty()) {
+        panic(label, "expected null factoring");
+    }
+
+    if (a(1UL) != std::set<uint64_t>{ 1UL }) {
+        panic(label, "expected unity factoring");
     }
 
     for (auto n = 2UL; n < 4UL; n++) {
@@ -46,14 +48,14 @@ static void test_algorithm_shallow(const std::string &label, const std::function
     }
 }
 
-static void test_algorithm_deep(const std::string &label, const std::function<std::set<uint64_t>(uint64_t)> &a, const blackbox::sieve &sv) {
-    for (const auto p : sv.odd_primes) {
+static void test_algorithm_deeper(const std::string &label, const std::function<std::set<uint64_t>(uint64_t)> &a, const std::set<uint64_t> &primes) {
+    for (const auto p : primes) {
         if (a(p) != std::set<uint64_t>{ 1UL, p }) {
             panic(label, "expected p -> { 1, p }");
         }
     }
 
-    for (const auto p : sv.odd_primes) {
+    for (const auto p : primes) {
         const auto n = p * p;
         if (a(n) != std::set<uint64_t>{ p }) {
             panic(label, "expected p^2 ->  { p }");
@@ -62,16 +64,12 @@ static void test_algorithm_deep(const std::string &label, const std::function<st
 }
 
 int main() {
-    test_algorithm_shallow("bruteforce", blackbox::factor_bruteforce);
-    test_algorithm_shallow("odd_linear", blackbox::factor_odd_linear);
-    test_algorithm_shallow("default", blackbox::factor);
+    test_algorithm_shallow("sieve", blackbox::factor);
 
-    blackbox::sieve sv{};
+    const blackbox::sieve sv{};
+    std::set<uint64_t> primes{ 2UL };
+    primes.insert(sv.odd_primes.begin(), sv.odd_primes.end());
 
-    for (auto i = 0; i < 100; i++) {
-        sv.grow();
-    }
-
-    test_algorithm_deep("default", blackbox::factor, sv);
+    test_algorithm_deeper("sieve", blackbox::factor, primes);
     return EXIT_SUCCESS;
 }

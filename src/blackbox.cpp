@@ -32,73 +32,39 @@ std::ostream &operator<<(std::ostream &o, const std::set<uint64_t> &n) {
 }
 
 namespace blackbox {
-std::set<uint64_t> factor_bruteforce(uint64_t n) {
-    if (n < 2UL) {
-        return std::set<uint64_t>{ n };
-    }
-
-    if (n < 4UL) {
-        return std::set<uint64_t>{ 1UL, n };
-    }
-
-    for (auto p = 2UL; p < n; p++) {
-        if (n % p == 0UL) {
-            return std::set<uint64_t>{ p, n / p };
-        }
-    }
-
-    return std::set<uint64_t>{ 1UL, n };
-}
-
-std::set<uint64_t> factor_odd_linear(uint64_t n) {
-    if (n < 2UL) {
-        return std::set<uint64_t>{ n };
-    }
-
-    if (n < 4UL) {
-        return std::set<uint64_t>{ 1UL, n };
-    }
-
-    if (n % 2UL == 0) {
-        return std::set<uint64_t>{ 2UL, n / 2UL };
-    }
-
-    const auto root = sqrt(n);
-
-    for (auto p = 3UL; p <= root; p += 2) {
-        if (n % p == 0UL) {
-            return std::set<uint64_t>{ p, n / p };
-        }
-    }
-
-    return std::set<uint64_t>{ 1UL, n };
-}
-
 void sieve::grow() {
-    index += 2;
+    bool prime = false;
+    auto root = 0UL;
 
-    bool prime = true;
+    while (true) {
+        index += 2;
+        root = sqrt(index);
+        prime = true;
 
-    const auto root = sqrt(index);
+        for (const auto p : odd_primes) {
+            if (index % p == 0UL) {
+                prime = false;
+                break;
+            }
 
-    for (const auto p : odd_primes) {
-        if (index % p == 0UL) {
-            prime = false;
-            break;
+            if (p > root) {
+                break;
+            }
         }
 
-        if (p > root) {
+        if (prime) {
+            odd_primes.push_back(index);
             break;
         }
-    }
-
-    if (prime) {
-        odd_primes.push_back(index);
     }
 }
 
 std::set<uint64_t> sieve::factor(uint64_t n) {
-    if (n < 2UL) {
+    if (n == 0UL) {
+        return std::set<uint64_t>{};
+    }
+
+    if (n == 1UL) {
         return std::set<uint64_t>{ n };
     }
 
@@ -126,11 +92,6 @@ std::set<uint64_t> sieve::factor(uint64_t n) {
 
     do {
         grow();
-
-        if (odd_primes.back() == p) {
-            continue;
-        }
-
         p = odd_primes.back();
 
         if (n % p == 0UL) {
