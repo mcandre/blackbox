@@ -1087,6 +1087,4 @@ struct sieve {
 
     std::set<uint64_t> factor(uint64_t n);
 };
-
-std::set<uint_least64_t> factor(uint64_t n);
 }

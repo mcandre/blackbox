@@ -64,12 +64,18 @@ static void test_algorithm_deeper(const std::string &label, const std::function<
 }
 
 int main() {
-    test_algorithm_shallow("sieve", blackbox::factor);
-
     const blackbox::sieve sv{};
-    std::set<uint64_t> primes{ 2UL };
-    primes.insert(sv.odd_primes.begin(), sv.odd_primes.end());
 
-    test_algorithm_deeper("sieve", blackbox::factor, primes);
+    const auto factor_sieve = [&](uint64_t n) {
+        return sv.factor(n);
+    };
+
+    test_algorithm_shallow("sieve", factor_sieve);
+
+    const blackbox::sieve sv2{};
+    std::set<uint64_t> primes{ 2UL };
+    primes.insert(sv2.odd_primes.begin(), sv2.odd_primes.end());
+
+    test_algorithm_deeper("sieve", factor_sieve, primes);
     return EXIT_SUCCESS;
 }

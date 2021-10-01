@@ -101,8 +101,4 @@ std::set<uint64_t> sieve::factor(uint64_t n) {
 
     return std::set<uint64_t>{ 1UL, n };
 }
-
-std::set<uint64_t> factor(uint64_t n) {
-    return sieve{}.factor(n);
-}
 }
