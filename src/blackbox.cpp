@@ -77,16 +77,8 @@ __uint128_t sieve::factor(__uint128_t n) {
     const auto root = sqrt(n);
 
     for (const auto p : odd_primes) {
-        if (n == p) {
-            return __uint128_t(0);
-        }
-
         if (n % p == __uint128_t(0)) {
             return p;
-        }
-
-        if (p > root) {
-            break;
         }
     }
 

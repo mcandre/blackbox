@@ -5,7 +5,7 @@
 ```console
 $ time blackbox 18446744073709551577
 139646831
-blackbox 18446744073709551577  26.68s user 0.04s system 99% cpu 26.738 total
+blackbox 18446744073709551577  26.65s user 0.05s system 99% cpu 26.711 total
 ```
 
 # ABOUT
