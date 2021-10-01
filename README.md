@@ -17,7 +17,7 @@ blackbox 18446744073709551577  26.65s user 0.05s system 99% cpu 26.711 total
 Preconditions:
 
 * n > 3
-* !even(n)
+* odd(n)
 
 When n is prime, blackbox reports `0`.
 
