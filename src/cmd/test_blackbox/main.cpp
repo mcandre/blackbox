@@ -40,6 +40,9 @@ static void test_algorithm_shallow(const std::string &label, const std::function
     if (a(6) != std::set<__uint128_t>{ 2, 3 }) {
         panic(label, "expected 6 -> { 2, 3 }");
     }
+    if (a(15) != std::set<__uint128_t>{ 3, 5 }) {
+        panic(label, "expected 6 -> { 3, 5 }");
+    }
 
     for (auto n = __uint128_t(4); n < __uint128_t(1000); n += __uint128_t(2)) {
         if (a(n) != std::set<__uint128_t>{ 2, n / 2 }) {

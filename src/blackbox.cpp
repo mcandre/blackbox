@@ -111,10 +111,6 @@ std::set<__uint128_t> sieve::factor(__uint128_t n) {
         return std::set<__uint128_t>{ __uint128_t(2), n / __uint128_t(2) };
     }
 
-    if (n % __uint128_t(3) == __uint128_t(0)) {
-        return std::set<__uint128_t>{ __uint128_t(3), n / __uint128_t(3) };
-    }
-
     const auto root = sqrt(n);
 
     for (const auto p : odd_primes) {
