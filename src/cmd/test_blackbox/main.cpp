@@ -50,7 +50,7 @@ static void test_algorithm_shallow(const std::string &label, const std::function
 
 static void test_algorithm_deeper(const std::string &label, const std::function<std::set<__uint128_t>(__uint128_t)> &a, const std::set<__uint128_t> &primes) {
     for (const auto p : primes) {
-        if (a(p) != std::set<__uint128_t>{ 1UL, p }) {
+        if (a(p) != std::set<__uint128_t>{ __uint128_t(1), p }) {
             panic(label, "expected p -> { 1, p }");
         }
     }

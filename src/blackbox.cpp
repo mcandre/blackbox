@@ -11,6 +11,16 @@
 
 #include "blackbox/blackbox.hpp"
 
+std::ostream &operator<<(std::ostream &o, __uint128_t x) {
+    const auto upper = uint64_t(x >> __uint128_t(64));
+
+    if (upper > 0ULL) {
+        o << upper;
+    }
+
+    return o << uint64_t(x);
+}
+
 std::ostream &operator<<(std::ostream &o, const std::set<__uint128_t> &n) {
     o << "{ ";
 
@@ -19,12 +29,9 @@ std::ostream &operator<<(std::ostream &o, const std::set<__uint128_t> &n) {
     auto it = n.begin();
 
     for (auto i = size_t(0); i < sz; i++) {
-        const auto factor = *it;
+        o << *it;
 
-        o << uint64_t(factor >> __uint128_t(64));
-        o << uint64_t(factor);
-
-        if (sz > 1 && i < sz_1) {
+        if (sz > size_t(1) && i < sz_1) {
             o << ", ";
         }
 
@@ -35,17 +42,32 @@ std::ostream &operator<<(std::ostream &o, const std::set<__uint128_t> &n) {
 }
 
 namespace blackbox {
+__uint128_t stoulll(const std::string &str, size_t *pos, int base) {
+        const auto lower_len = std::min(str.size(), size_t(20));
+        const auto upper_len = std::min(str.size() - lower_len, size_t(20));
+        const auto upper_s = str.substr(0, upper_len);
+        const auto lower_s = str.substr(upper_len);
+        auto upper = 0ULL;
+
+        if (upper_len > size_t(0)) {
+            upper = std::stoul(upper_s, pos, base);
+        }
+
+        const auto lower = std::stoul(lower_s, pos, base);
+        return (__uint128_t(upper) << __uint128_t(64)) + __uint128_t(lower);
+}
+
 void sieve::grow() {
     bool prime = false;
-    auto root = 0UL;
+    auto root = __uint128_t(0);
 
     while (true) {
-        index += 2;
+        index += __uint128_t(2);
         root = sqrt(index);
         prime = true;
 
         for (const auto p : odd_primes) {
-            if (index % p == 0UL) {
+            if (index % p == __uint128_t(0)) {
                 prime = false;
                 break;
             }
@@ -72,7 +94,7 @@ std::set<__uint128_t> sieve::factor(__uint128_t n) {
     }
 
     if (n < __uint128_t(4)) {
-        return std::set<__uint128_t>{ 1UL, n };
+        return std::set<__uint128_t>{ __uint128_t(1), n };
     }
 
     if (n % __uint128_t(2) == __uint128_t(0)) {

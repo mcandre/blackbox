@@ -8,9 +8,13 @@
 #include <set>
 #include <vector>
 
+std::ostream &operator<<(std::ostream &o, __uint128_t x);
+
 std::ostream &operator<<(std::ostream &o, const std::set<__uint128_t> &n);
 
 namespace blackbox {
+__uint128_t stoulll(const std::string &str, std::size_t *pos = nullptr, int base = 10);
+
 struct sieve {
     std::vector<__uint128_t> odd_primes{
         3, 5, 7, 11, 13, 17, 19, 23,

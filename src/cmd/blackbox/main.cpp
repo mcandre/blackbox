@@ -25,12 +25,7 @@ int main(int argc, char **argv) {
     __uint128_t n = 0;
 
     try {
-        std::stringstream ss;
-        ss << std::setw(40) << std::setfill('0') << argv[1];
-        const auto n_s = ss.str();
-        const auto upper_s = n_s.substr(0, 20);
-        const auto lower_s = n_s.substr(20);
-        n = (__uint128_t(std::stoul(upper_s)) << __uint128_t(64)) + std::stoul(lower_s);
+        n = blackbox::stoulll(argv[1]);
     } catch (std::out_of_range &e) {
         usage(program);
         return EXIT_FAILURE;
@@ -38,9 +33,6 @@ int main(int argc, char **argv) {
         usage(program);
         return EXIT_FAILURE;
     }
-
-    std::cerr << "N: " << uint64_t(n >> __uint128_t(64)) << uint64_t(n) << std::endl;
-
 
     blackbox::sieve sv{};
     std::cout << sv.factor(n) << std::endl;
