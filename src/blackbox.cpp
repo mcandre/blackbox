@@ -12,13 +12,24 @@
 #include "blackbox/blackbox.hpp"
 
 std::ostream &operator<<(std::ostream &o, __uint128_t x) {
-    const auto upper = uint64_t(x >> __uint128_t(64));
-
-    if (upper > 0ULL) {
-        o << upper;
+    if (x == __uint128_t(0)) {
+        return o << '0' << std::endl;
     }
 
-    return o << uint64_t(x);
+    std::vector<char> digits{};
+
+    while (x > __uint128_t(0)) {
+        digits.push_back('0' + char(x % __uint128_t(10)));
+        x /= __uint128_t(10);
+    }
+
+    std::reverse(digits.begin(), digits.end());
+
+    for (const auto digit : digits) {
+        o << digit;
+    }
+
+    return o;
 }
 
 std::ostream &operator<<(std::ostream &o, const std::set<__uint128_t> &n) {
@@ -43,18 +54,17 @@ std::ostream &operator<<(std::ostream &o, const std::set<__uint128_t> &n) {
 
 namespace blackbox {
 __uint128_t stoulll(const std::string &str, size_t *pos, int base) {
-        const auto lower_len = std::min(str.size(), size_t(20));
-        const auto upper_len = std::min(str.size() - lower_len, size_t(20));
-        const auto upper_s = str.substr(0, upper_len);
-        const auto lower_s = str.substr(upper_len);
-        auto upper = 0ULL;
+    auto x = __uint128_t(0);
+    const auto sz = str.size();
+    const auto sz_1 = sz - size_t(1);
 
-        if (upper_len > size_t(0)) {
-            upper = std::stoul(upper_s, pos, base);
-        }
+    for (auto i = size_t(0); i < sz_1; i++) {
+        x += std::stoi(str.substr(i, 1), pos, base);
+        x *= __uint128_t(10);
+    }
 
-        const auto lower = std::stoul(lower_s, pos, base);
-        return (__uint128_t(upper) << __uint128_t(64)) + __uint128_t(lower);
+    x += std::stoi(str.substr(sz_1, 1), pos, base);
+    return x;
 }
 
 void sieve::grow() {

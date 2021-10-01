@@ -4,9 +4,7 @@
 
 #include <cstdint>
 #include <cstdlib>
-#include <iomanip>
 #include <iostream>
-#include <sstream>
 
 #include "blackbox/blackbox.hpp"
 
@@ -33,6 +31,10 @@ int main(int argc, char **argv) {
         usage(program);
         return EXIT_FAILURE;
     }
+
+
+    std::cerr << "N: " << n << std::endl;
+
 
     blackbox::sieve sv{};
     std::cout << sv.factor(n) << std::endl;
