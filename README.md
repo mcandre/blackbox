@@ -1,5 +1,9 @@
 # blackbox: Setec Astronomy
 
+# SUMMARY
+
+blackbox is a semiprime factoring machine.
+
 # EXAMPLE
 
 ```console
@@ -10,11 +14,13 @@ blackbox 18446744073709551577  26.65s user 0.05s system 99% cpu 26.711 total
 
 # ABOUT
 
-blackbox factors semiprimes.
+blackbox reports `0` for certain degenerate cases:
 
-## Caveats
+* n < 3
+* prime(n)
+* even(n)
 
-blackbox is intended for non-trivial semiprimes. For performance reasons, certain trivial cases (n < 4, even n, square n, prime n) may produce strange behavior.
+Otherwise, blackbox reports a semiprime factor.
 
 Expect processing time to grow exponentially with the size of the semiprime.
 

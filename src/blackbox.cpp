@@ -56,12 +56,12 @@ void sieve::grow() {
         prime = true;
 
         for (const auto p : odd_primes) {
-            if (index % p == __uint128_t(0)) {
-                prime = false;
+            if (p > root) {
                 break;
             }
 
-            if (p > root) {
+            if (index % p == __uint128_t(0)) {
+                prime = false;
                 break;
             }
         }
@@ -76,13 +76,7 @@ void sieve::grow() {
 __uint128_t sieve::factor(__uint128_t n) {
     const auto root = sqrt(n);
 
-    for (const auto p : odd_primes) {
-        if (n % p == __uint128_t(0)) {
-            return p;
-        }
-    }
-
-    while (index < root) {
+    while (index <= root) {
         grow();
 
         if (n % odd_primes.back() == __uint128_t(0)) {
