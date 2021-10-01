@@ -1,6 +1,6 @@
 # BUILDTIME REQUIREMENTS
 
-* a [C++](https://www.cplusplus.com/) compiler with full C++17 support (e.g. clang 9+, g++ 9+, MSVC 19+)
+* a gcc-based [C++](https://www.cplusplus.com/) compiler (e.g. clang 9+, g++ 9+)
 * [cmake](https://cmake.org/) 3+
 
 ## Recommended
