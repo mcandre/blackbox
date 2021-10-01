@@ -6,7 +6,6 @@
 #include <cstdint>
 #include <ctgmath>
 #include <iostream>
-#include <set>
 #include <vector>
 
 #include "blackbox/blackbox.hpp"
@@ -30,26 +29,6 @@ std::ostream &operator<<(std::ostream &o, __uint128_t x) {
     }
 
     return o;
-}
-
-std::ostream &operator<<(std::ostream &o, const std::set<__uint128_t> &n) {
-    o << "{ ";
-
-    const auto sz = n.size();
-    const auto sz_1 = sz - 1;
-    auto it = n.begin();
-
-    for (auto i = size_t(0); i < sz; i++) {
-        o << *it;
-
-        if (sz > size_t(1) && i < sz_1) {
-            o << ", ";
-        }
-
-        std::advance(it, 1);
-    }
-
-    return o << " }";
 }
 
 namespace blackbox {
@@ -94,16 +73,20 @@ void sieve::grow() {
     }
 }
 
-std::set<__uint128_t> sieve::factor(__uint128_t n) {
+__uint128_t sieve::factor(__uint128_t n) {
     const auto root = sqrt(n);
 
     if (n % __uint128_t(2) == __uint128_t(0)) {
-        return std::set<__uint128_t>{ __uint128_t(2), n / __uint128_t(2) };
+        return __uint128_t(2);
     }
 
     for (const auto p : odd_primes) {
+        if (n == p) {
+            return __uint128_t(1);
+        }
+
         if (n % p == __uint128_t(0)) {
-            return std::set<__uint128_t>{ p, n / p };
+            return p;
         }
     }
 
@@ -114,10 +97,10 @@ std::set<__uint128_t> sieve::factor(__uint128_t n) {
         p = odd_primes.back();
 
         if (n % p == __uint128_t(0)) {
-            return std::set<__uint128_t>{ p, n / p };
+            return p;
         }
     }
 
-    return std::set<__uint128_t>{};
+    return __uint128_t(1);
 }
 }

@@ -5,12 +5,9 @@
 
 #include <cstdint>
 #include <iostream>
-#include <set>
 #include <vector>
 
 std::ostream &operator<<(std::ostream &o, __uint128_t x);
-
-std::ostream &operator<<(std::ostream &o, const std::set<__uint128_t> &n);
 
 namespace blackbox {
 __uint128_t stoulll(const std::string &str, std::size_t *pos = nullptr, int base = 10);
@@ -1089,6 +1086,6 @@ struct sieve {
 
     void grow();
 
-    std::set<__uint128_t> factor(__uint128_t n);
+    __uint128_t factor(__uint128_t n);
 };
 }

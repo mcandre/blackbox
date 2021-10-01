@@ -19,15 +19,12 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
+    blackbox::sieve sv{};
+
     try {
-        const auto n = blackbox::stoulll(argv[1]);
-        blackbox::sieve sv{};
-        std::cout << sv.factor(n) << std::endl;
+        std::cout << sv.factor(blackbox::stoulll(argv[1])) << std::endl;
         return EXIT_SUCCESS;
-    } catch (std::out_of_range &e) {
-        usage(program);
-        return EXIT_FAILURE;
-    } catch (std::invalid_argument &e) {
+    } catch (std::logic_error &e) {
         usage(program);
         return EXIT_FAILURE;
     }
