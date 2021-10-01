@@ -13,7 +13,7 @@
 
 std::ostream &operator<<(std::ostream &o, __uint128_t x) {
     if (x == __uint128_t(0)) {
-        return o << '0' << std::endl;
+        return o << '0';
     }
 
     std::vector<char> digits{};
@@ -95,45 +95,29 @@ void sieve::grow() {
 }
 
 std::set<__uint128_t> sieve::factor(__uint128_t n) {
-    if (n == __uint128_t(0)) {
-        return std::set<__uint128_t>{};
-    }
-
-    if (n == __uint128_t(1)) {
-        return std::set<__uint128_t>{ n };
-    }
-
-    if (n < __uint128_t(4)) {
-        return std::set<__uint128_t>{ __uint128_t(1), n };
-    }
+    const auto root = sqrt(n);
 
     if (n % __uint128_t(2) == __uint128_t(0)) {
         return std::set<__uint128_t>{ __uint128_t(2), n / __uint128_t(2) };
     }
 
-    const auto root = sqrt(n);
-
     for (const auto p : odd_primes) {
         if (n % p == __uint128_t(0)) {
             return std::set<__uint128_t>{ p, n / p };
-        }
-
-        if (p > root) {
-            break;
         }
     }
 
     auto p = __uint128_t(0);
 
-    do {
+    while (index <= root) {
         grow();
         p = odd_primes.back();
 
         if (n % p == __uint128_t(0)) {
             return std::set<__uint128_t>{ p, n / p };
         }
-    } while (index < root);
+    }
 
-    return std::set<__uint128_t>{ __uint128_t(1), n };
+    return std::set<__uint128_t>{};
 }
 }

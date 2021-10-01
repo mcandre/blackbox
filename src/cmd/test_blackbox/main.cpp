@@ -17,20 +17,6 @@ static void panic(const std::string &label, const std::string &message) {
 }
 
 static void test_algorithm_shallow(const std::string &label, const std::function<std::set<__uint128_t>(__uint128_t)> &a) {
-    if (!a(0).empty()) {
-        panic(label, "expected null factoring");
-    }
-
-    if (a(1) != std::set<__uint128_t>{ 1 }) {
-        panic(label, "expected unity factoring");
-    }
-
-    for (auto n = __uint128_t(2); n < __uint128_t(4); n++) {
-        if (a(n) != std::set<__uint128_t>{ 1, n }) {
-            panic(label, "expected base case -> { 1, n }");
-        }
-    }
-
     if (a(4) != std::set<__uint128_t>{ 2 }) {
         panic(label, "expected 4 -> { 2 }");
     }
@@ -61,10 +47,6 @@ static void test_algorithm_deeper(const std::string &label, const std::function<
     for (const auto p : primes) {
         const auto n = p * p;
         if (a(n) != std::set<__uint128_t>{ p }) {
-
-
-            std::cerr << "Violation: " << p << std::endl;
-
             panic(label, "expected p^2 ->  { p }");
         }
     }
