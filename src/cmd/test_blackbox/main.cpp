@@ -77,7 +77,7 @@ int main() {
     test_algorithm_shallow("sieve", factor_sieve);
 
     const blackbox::sieve sv2{};
-    std::set<__uint128_t> primes{ 2, 3 };
+    std::set<__uint128_t> primes{ 2 };
     primes.insert(sv2.odd_primes.begin(), sv2.odd_primes.end());
 
     test_algorithm_deeper("sieve", factor_sieve, primes);
