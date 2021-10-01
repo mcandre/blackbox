@@ -90,17 +90,14 @@ __uint128_t sieve::factor(__uint128_t n) {
         }
     }
 
-    auto p = __uint128_t(0);
-
-    while (index <= root) {
+    while (index < root) {
         grow();
-        p = odd_primes.back();
 
-        if (n % p == __uint128_t(0)) {
-            return p;
+        if (n % odd_primes.back() == __uint128_t(0)) {
+            return odd_primes.back();
         }
     }
 
-    return __uint128_t(1);
+    return __uint128_t(0);
 }
 }
