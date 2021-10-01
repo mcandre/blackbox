@@ -14,7 +14,7 @@ blackbox factors semiprimes.
 
 ## Caveats
 
-blackbox is intended for non-trivial semiprimes. For performance reasons, certain trivial cases (n < 4, even n, square n, prime n) may produce strange results.
+blackbox is intended for non-trivial semiprimes. For performance reasons, certain trivial cases (n < 4, even n, square n, prime n) may produce strange behavior.
 
 Expect processing time to grow exponentially with the size of the semiprime.
 
