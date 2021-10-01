@@ -58,6 +58,10 @@ static void test_algorithm_deeper(const std::string &label, const std::function<
     for (const auto p : primes) {
         const auto n = p * p;
         if (a(n) != std::set<__uint128_t>{ p }) {
+
+
+            std::cerr << "Violation: " << p << std::endl;
+
             panic(label, "expected p^2 ->  { p }");
         }
     }
@@ -73,7 +77,7 @@ int main() {
     test_algorithm_shallow("sieve", factor_sieve);
 
     const blackbox::sieve sv2{};
-    std::set<__uint128_t> primes{ 2 };
+    std::set<__uint128_t> primes{ 2, 3 };
     primes.insert(sv2.odd_primes.begin(), sv2.odd_primes.end());
 
     test_algorithm_deeper("sieve", factor_sieve, primes);
