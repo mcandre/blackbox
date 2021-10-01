@@ -16,48 +16,48 @@ static void panic(const std::string &label, const std::string &message) {
     exit(EXIT_FAILURE);
 }
 
-static void test_algorithm_shallow(const std::string &label, const std::function<std::set<uint64_t>(uint64_t)> &a) {
-    if (!a(0UL).empty()) {
+static void test_algorithm_shallow(const std::string &label, const std::function<std::set<__uint128_t>(__uint128_t)> &a) {
+    if (!a(0).empty()) {
         panic(label, "expected null factoring");
     }
 
-    if (a(1UL) != std::set<uint64_t>{ 1UL }) {
+    if (a(1) != std::set<__uint128_t>{ 1 }) {
         panic(label, "expected unity factoring");
     }
 
-    for (auto n = 2UL; n < 4UL; n++) {
-        if (a(n) != std::set<uint64_t>{ 1UL, n }) {
+    for (auto n = __uint128_t(2); n < __uint128_t(4); n++) {
+        if (a(n) != std::set<__uint128_t>{ 1, n }) {
             panic(label, "expected base case -> { 1, n }");
         }
     }
 
-    if (a(4UL) != std::set<uint64_t>{ 2UL }) {
+    if (a(4) != std::set<__uint128_t>{ 2 }) {
         panic(label, "expected 4 -> { 2 }");
     }
-    if (a(5UL) != std::set<uint64_t>{ 1UL, 5UL }) {
+    if (a(5) != std::set<__uint128_t>{ 1, 5 }) {
         panic(label, "expected 5 -> { 1, 5 }");
     }
-    if (a(6UL) != std::set<uint64_t>{ 2UL, 3UL }) {
+    if (a(6) != std::set<__uint128_t>{ 2, 3 }) {
         panic(label, "expected 6 -> { 2, 3 }");
     }
 
-    for (auto n = 4UL; n < 1000; n += 2) {
-        if (a(n) != std::set<uint64_t>{ 2, n / 2 }) {
+    for (auto n = __uint128_t(4); n < __uint128_t(1000); n += __uint128_t(2)) {
+        if (a(n) != std::set<__uint128_t>{ 2, n / 2 }) {
             panic(label, "expected 2q -> { 2, q }");
         }
     }
 }
 
-static void test_algorithm_deeper(const std::string &label, const std::function<std::set<uint64_t>(uint64_t)> &a, const std::set<uint64_t> &primes) {
+static void test_algorithm_deeper(const std::string &label, const std::function<std::set<__uint128_t>(__uint128_t)> &a, const std::set<__uint128_t> &primes) {
     for (const auto p : primes) {
-        if (a(p) != std::set<uint64_t>{ 1UL, p }) {
+        if (a(p) != std::set<__uint128_t>{ 1UL, p }) {
             panic(label, "expected p -> { 1, p }");
         }
     }
 
     for (const auto p : primes) {
         const auto n = p * p;
-        if (a(n) != std::set<uint64_t>{ p }) {
+        if (a(n) != std::set<__uint128_t>{ p }) {
             panic(label, "expected p^2 ->  { p }");
         }
     }
@@ -66,14 +66,14 @@ static void test_algorithm_deeper(const std::string &label, const std::function<
 int main() {
     blackbox::sieve sv{};
 
-    const auto factor_sieve = [&](uint64_t n) mutable {
+    const auto factor_sieve = [&](__uint128_t n) mutable {
         return sv.factor(n);
     };
 
     test_algorithm_shallow("sieve", factor_sieve);
 
     const blackbox::sieve sv2{};
-    std::set<uint64_t> primes{ 2UL };
+    std::set<__uint128_t> primes{ 2 };
     primes.insert(sv2.odd_primes.begin(), sv2.odd_primes.end());
 
     test_algorithm_deeper("sieve", factor_sieve, primes);

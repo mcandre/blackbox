@@ -8,11 +8,11 @@
 #include <set>
 #include <vector>
 
-std::ostream &operator<<(std::ostream &o, const std::set<uint64_t> &n);
+std::ostream &operator<<(std::ostream &o, const std::set<__uint128_t> &n);
 
 namespace blackbox {
 struct sieve {
-    std::vector<uint64_t> odd_primes{
+    std::vector<__uint128_t> odd_primes{
         3, 5, 7, 11, 13, 17, 19, 23,
         29, 31, 37, 41, 43, 47, 53, 59, 61,
         67, 71, 73, 79, 83, 89, 97, 101, 103,
@@ -1081,10 +1081,10 @@ struct sieve {
         99907, 99923, 99929, 99961, 99971, 99989, 99991
     };
 
-    uint64_t index = 100003UL;
+    __uint128_t index = 100003;
 
     void grow();
 
-    std::set<uint64_t> factor(uint64_t n);
+    std::set<__uint128_t> factor(__uint128_t n);
 };
 }

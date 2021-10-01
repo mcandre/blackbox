@@ -11,7 +11,7 @@
 
 #include "blackbox/blackbox.hpp"
 
-std::ostream &operator<<(std::ostream &o, const std::set<uint64_t> &n) {
+std::ostream &operator<<(std::ostream &o, const std::set<__uint128_t> &n) {
     o << "{ ";
 
     const auto sz = n.size();
@@ -19,7 +19,10 @@ std::ostream &operator<<(std::ostream &o, const std::set<uint64_t> &n) {
     auto it = n.begin();
 
     for (auto i = size_t(0); i < sz; i++) {
-        o << *it;
+        const auto factor = *it;
+
+        o << uint64_t(factor >> __uint128_t(64));
+        o << uint64_t(factor);
 
         if (sz > 1 && i < sz_1) {
             o << ", ";
@@ -59,28 +62,28 @@ void sieve::grow() {
     }
 }
 
-std::set<uint64_t> sieve::factor(uint64_t n) {
-    if (n == 0UL) {
-        return std::set<uint64_t>{};
+std::set<__uint128_t> sieve::factor(__uint128_t n) {
+    if (n == __uint128_t(0)) {
+        return std::set<__uint128_t>{};
     }
 
-    if (n == 1UL) {
-        return std::set<uint64_t>{ n };
+    if (n == __uint128_t(1)) {
+        return std::set<__uint128_t>{ n };
     }
 
-    if (n < 4UL) {
-        return std::set<uint64_t>{ 1UL, n };
+    if (n < __uint128_t(4)) {
+        return std::set<__uint128_t>{ 1UL, n };
     }
 
-    if (n % 2 == 0UL) {
-        return std::set<uint64_t>{ 2UL, n / 2UL };
+    if (n % __uint128_t(2) == __uint128_t(0)) {
+        return std::set<__uint128_t>{ __uint128_t(2), n / __uint128_t(2) };
     }
 
     const auto root = sqrt(n);
 
     for (const auto p : odd_primes) {
-        if (n % p == 0UL) {
-            return std::set<uint64_t>{ p, n / p };
+        if (n % p == __uint128_t(0)) {
+            return std::set<__uint128_t>{ p, n / p };
         }
 
         if (p > root) {
@@ -88,17 +91,17 @@ std::set<uint64_t> sieve::factor(uint64_t n) {
         }
     }
 
-    auto p = 0UL;
+    auto p = __uint128_t(0);
 
     do {
         grow();
         p = odd_primes.back();
 
-        if (n % p == 0UL) {
-            return std::set<uint64_t>{ p, n / p };
+        if (n % p == __uint128_t(0)) {
+            return std::set<__uint128_t>{ p, n / p };
         }
     } while (index < root);
 
-    return std::set<uint64_t>{ 1UL, n };
+    return std::set<__uint128_t>{ __uint128_t(1), n };
 }
 }
