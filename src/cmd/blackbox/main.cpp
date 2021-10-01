@@ -32,6 +32,7 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
-    std::cout << blackbox::factor(n) << std::endl;
+    blackbox::sieve sv{};
+    std::cout << sv.factor(n) << std::endl;
     return EXIT_SUCCESS;
 }

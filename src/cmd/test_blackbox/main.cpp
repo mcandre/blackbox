@@ -64,9 +64,9 @@ static void test_algorithm_deeper(const std::string &label, const std::function<
 }
 
 int main() {
-    const blackbox::sieve sv{};
+    blackbox::sieve sv{};
 
-    const auto factor_sieve = [&](uint64_t n) {
+    const auto factor_sieve = [&](uint64_t n) mutable {
         return sv.factor(n);
     };
 
