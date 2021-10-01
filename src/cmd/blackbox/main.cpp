@@ -2,7 +2,6 @@
  * @copyright 2021 YelloSoft
  */
 
-#include <cstdint>
 #include <cstdlib>
 #include <iostream>
 
@@ -20,10 +19,11 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
-    __uint128_t n = 0;
-
     try {
-        n = blackbox::stoulll(argv[1]);
+        const auto n = blackbox::stoulll(argv[1]);
+        blackbox::sieve sv{};
+        std::cout << sv.factor(n) << std::endl;
+        return EXIT_SUCCESS;
     } catch (std::out_of_range &e) {
         usage(program);
         return EXIT_FAILURE;
@@ -31,12 +31,4 @@ int main(int argc, char **argv) {
         usage(program);
         return EXIT_FAILURE;
     }
-
-
-    std::cerr << "N: " << n << std::endl;
-
-
-    blackbox::sieve sv{};
-    std::cout << sv.factor(n) << std::endl;
-    return EXIT_SUCCESS;
 }
