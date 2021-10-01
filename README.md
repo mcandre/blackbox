@@ -14,13 +14,14 @@ blackbox 18446744073709551577  26.65s user 0.05s system 99% cpu 26.711 total
 
 # ABOUT
 
-blackbox reports `0` for certain degenerate cases:
+Preconditions:
 
-* n < 3
-* prime(n)
-* even(n)
+* n > 3
+* !even(n)
 
-Otherwise, blackbox reports a semiprime factor.
+When n is prime, blackbox reports `0`.
+
+Otherwise, blackbox reports a prime factor.
 
 Expect processing time to grow exponentially with the size of the semiprime.
 
