@@ -7,9 +7,9 @@ blackbox is a semiprime factoring machine.
 # EXAMPLE
 
 ```console
-$ time blackbox 18446744073709551577
-139646831
-blackbox 18446744073709551577  26.65s user 0.05s system 99% cpu 26.711 total
+$ time blackbox 18446744073709561
+36473819
+blackbox 18446744073709561  22.78s user 0.07s system 99% cpu 22.856 total
 ```
 
 # ABOUT
